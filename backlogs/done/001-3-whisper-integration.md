@@ -3,7 +3,7 @@
 **Created**: 2025-11-14
 **Priority**: Critique
 **Type**: Feature
-**Status**: Todo
+**Status**: Done
 **Estimated Effort**: 6h
 **EPIC**: 1 - Infrastructure et Configuration du Projet
 
@@ -23,11 +23,11 @@ Whisper.cpp est le moteur de transcription audio du projet. Il doit être intég
 
 ## Acceptance Criteria
 
-- [ ] Whisper.cpp intégré et compilé
-- [ ] Bindings Rust fonctionnels
-- [ ] Test de transcription basique réussi
-- [ ] Gestion du téléchargement des modèles implémentée
-- [ ] Vérification d'intégrité des modèles (checksums)
+- [x] Whisper.cpp intégré et compilé
+- [x] Bindings Rust fonctionnels
+- [x] Test de transcription basique réussi
+- [x] Gestion du téléchargement des modèles implémentée
+- [x] Vérification d'intégrité des modèles (checksums)
 
 ---
 
@@ -69,43 +69,43 @@ Source des modèles : https://huggingface.co/ggerganov/whisper.cpp/tree/main
 
 ## Tasks Breakdown
 
-- [ ] Ajouter `whisper-rs` au Cargo.toml
-- [ ] Créer module `src/transcription/whisper.rs`
-- [ ] Créer wrapper Rust pour whisper context
-- [ ] Implémenter téléchargement de modèles avec reqwest
-- [ ] Implémenter vérification checksums
-- [ ] Créer barre de progression (avec `indicatif`)
-- [ ] Implémenter cache local des modèles
-- [ ] Créer test de transcription basique
-- [ ] Gérer les erreurs de chargement de modèle
+- [x] Ajouter `whisper-rs` au Cargo.toml
+- [x] Créer module `src/transcription/whisper.rs`
+- [x] Créer wrapper Rust pour whisper context
+- [x] Implémenter téléchargement de modèles avec reqwest
+- [x] Implémenter vérification checksums
+- [x] Créer barre de progression (avec `indicatif`)
+- [x] Implémenter cache local des modèles
+- [x] Créer test de transcription basique
+- [x] Gérer les erreurs de chargement de modèle
 
 ---
 
 ## Test Plan
 
 ### Unit Tests
-- [ ] Test de téléchargement de modèle
-- [ ] Test de vérification de checksum
-- [ ] Test de chargement de modèle
+- [x] Test de téléchargement de modèle
+- [x] Test de vérification de checksum
+- [x] Test de chargement de modèle
 
 ### Integration Tests
-- [ ] Test de transcription avec modèle tiny
-- [ ] Test de transcription d'un fichier audio court
-- [ ] Vérifier que le contexte Whisper se crée correctement
+- [x] Test de transcription avec modèle tiny
+- [x] Test de transcription d'un fichier audio court
+- [x] Vérifier que le contexte Whisper se crée correctement
 
 ### Manual Testing
-- [ ] Télécharger chaque modèle manuellement
-- [ ] Transcrire un fichier audio test
-- [ ] Vérifier les messages d'erreur si modèle manquant
+- [x] Télécharger chaque modèle manuellement
+- [x] Transcrire un fichier audio test
+- [x] Vérifier les messages d'erreur si modèle manquant
 
 ---
 
 ## Documentation Updates
 
-- [ ] Documenter l'utilisation de Whisper dans le code
-- [ ] Ajouter section sur les modèles dans README
-- [ ] Documenter où sont stockés les modèles
-- [ ] Expliquer comment changer de modèle
+- [x] Documenter l'utilisation de Whisper dans le code
+- [x] Ajouter section sur les modèles dans README
+- [x] Documenter où sont stockés les modèles
+- [x] Expliquer comment changer de modèle
 
 ---
 
@@ -161,9 +161,9 @@ Récupérer depuis https://huggingface.co/ggerganov/whisper.cpp/tree/main
 
 ## Definition of Done
 
-- [ ] Whisper.cpp intégré et fonctionnel
-- [ ] Au moins un modèle téléchargeable
-- [ ] Test de transcription basique passe
-- [ ] Documentation complète
-- [ ] Code reviewed
-- [ ] Issue moved to done folder
+- [x] Whisper.cpp intégré et fonctionnel
+- [x] Au moins un modèle téléchargeable
+- [x] Test de transcription basique passe
+- [x] Documentation complète
+- [x] Code reviewed
+- [x] Issue moved to done folder
