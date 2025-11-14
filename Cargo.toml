@@ -54,6 +54,9 @@ sysinfo = "0.30"
 # Noise reduction
 nnnoiseless = "0.5"
 
+# Voice Activity Detection
+webrtc-vad = "0.4"
+
 [dev-dependencies]
 # Testing
 criterion = "0.5"
