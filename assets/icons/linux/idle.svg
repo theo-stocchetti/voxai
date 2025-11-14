@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <!-- VoxAI Idle State Icon - Simple Microphone -->
+  <g fill="none" stroke="#6B6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Microphone body -->
+    <rect x="18" y="10" width="12" height="16" rx="6" />
+    <!-- Microphone stand -->
+    <path d="M 24 26 L 24 34" />
+    <path d="M 18 34 L 30 34" />
+    <!-- Sound waves (subtle) -->
+    <path d="M 12 20 Q 10 24 12 28" opacity="0.5" />
+    <path d="M 36 20 Q 38 24 36 28" opacity="0.5" />
+  </g>
+</svg>
