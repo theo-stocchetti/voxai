@@ -1,0 +1,30 @@
+# Cargo configuration for VoxAI
+# Cross-compilation targets and platform-specific settings
+
+[build]
+# Parallel jobs for faster builds
+jobs = 4
+
+[target.x86_64-pc-windows-msvc]
+# Windows-specific linker flags
+rustflags = ["-C", "target-feature=+crt-static"]
+
+[target.x86_64-apple-darwin]
+# macOS Intel-specific settings
+rustflags = []
+
+[target.aarch64-apple-darwin]
+# macOS ARM (Apple Silicon) settings
+rustflags = ["-C", "target-cpu=apple-m1"]
+
+[target.x86_64-unknown-linux-gnu]
+# Linux-specific settings
+rustflags = []
+
+# Alias for common commands
+[alias]
+build-win = "build --target x86_64-pc-windows-msvc"
+build-mac-intel = "build --target x86_64-apple-darwin"
+build-mac-arm = "build --target aarch64-apple-darwin"
+build-linux = "build --target x86_64-unknown-linux-gnu"
+build-all = "build --target x86_64-pc-windows-msvc --target x86_64-apple-darwin --target aarch64-apple-darwin --target x86_64-unknown-linux-gnu"

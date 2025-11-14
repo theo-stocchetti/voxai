@@ -1,0 +1,54 @@
+[package]
+name = "voxai"
+version = "0.1.0"
+edition = "2021"
+authors = ["VoxAI Team"]
+description = "Real-time audio transcription desktop application powered by Whisper AI"
+license = "MIT"
+repository = "https://github.com/theo-stocchetti/voxai"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Logging
+log = "0.4"
+env_logger = "0.11"
+
+# Configuration
+dirs = "5.0"
+
+# Transcription (Whisper)
+# Note: whisper-rs will be added when we have CMake properly configured
+# whisper-rs = "0.10"
+
+# HTTP client for model downloading
+reqwest = { version = "0.12", features = ["stream", "rustls-tls"], default-features = false }
+futures-util = "0.3"
+
+# Checksums for model verification
+sha2 = "0.10"
+
+# Progress indication
+indicatif = "0.17"
+
+# Filesystem utilities
+tokio-util = { version = "0.7", features = ["io"] }
+
+[dev-dependencies]
+# Testing
+criterion = "0.5"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
