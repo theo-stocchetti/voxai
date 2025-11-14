@@ -4,7 +4,7 @@
 //! Supports Windows, macOS, and Linux with hardware acceleration.
 
 use anyhow::Result;
-use log::{error, info};
+use log::info;
 
 mod audio;
 mod config;

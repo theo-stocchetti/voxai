@@ -30,6 +30,7 @@ impl Config {
     }
 
     /// Save configuration to file
+    #[allow(dead_code)]
     pub fn save(&self) -> anyhow::Result<()> {
         // TODO: Implement config saving
         Ok(())

@@ -14,7 +14,7 @@ pub mod whisper;
 // pub mod pipeline;
 // pub mod chunking;
 
-// Re-exports for convenience
-pub use downloader::{delete_model, download_model, list_downloaded_models, verify_model};
-pub use models::{get_model_path, get_models_dir, is_model_downloaded, ModelSize};
-pub use whisper::WhisperContext;
+// Re-exports for convenience (commented out until used to avoid warnings)
+// pub use downloader::{delete_model, download_model, list_downloaded_models, verify_model};
+// pub use models::{get_model_path, get_models_dir, is_model_downloaded, ModelSize};
+// pub use whisper::WhisperContext;
