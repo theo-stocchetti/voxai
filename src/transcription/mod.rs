@@ -8,10 +8,10 @@
 
 pub mod downloader;
 pub mod models;
+pub mod pipeline;
 pub mod whisper;
 
 // Future modules (to be implemented)
-// pub mod pipeline;
 // pub mod chunking;
 
 // Re-exports for convenience (commented out until used to avoid warnings)
