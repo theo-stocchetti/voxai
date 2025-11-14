@@ -43,6 +43,10 @@ indicatif = "0.17"
 # Filesystem utilities
 tokio-util = { version = "0.7", features = ["io"] }
 
+# UI (egui for settings window)
+egui = "0.24"
+eframe = "0.24"
+
 [dev-dependencies]
 # Testing
 criterion = "0.5"

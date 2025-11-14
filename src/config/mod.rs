@@ -3,12 +3,14 @@
 //! Handles persistent configuration and settings with JSON serialization.
 //! Configuration is stored in platform-specific directories:
 //! - Windows: %APPDATA%\VoxAI\config.json
-//! - macOS: ~/Library/Application Support/VoxAI/config.json
+//! - macOS: ~/Library/Application Support/VoxAI\config.json
 //! - Linux: ~/.config/voxai/config.json
 
 mod schema;
+pub mod language;
 
 pub use schema::*;
+pub use language::Language;
 
 use anyhow::{Context, Result};
 use std::path::PathBuf;
