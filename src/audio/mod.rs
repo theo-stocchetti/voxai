@@ -9,7 +9,5 @@
 pub mod buffer;
 pub mod capture;
 pub mod device;
-
-// Future modules (to be implemented)
-// pub mod noise_reduction;
-// pub mod vad;
+pub mod noise_reduction;
+pub mod vad;
