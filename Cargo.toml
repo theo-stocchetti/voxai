@@ -56,6 +56,10 @@ arboard = "3.3"
 # UI - Notifications
 notify-rust = "4.10"
 
+# UI - Settings Window
+eframe = "0.24"
+egui = "0.24"
+
 [dev-dependencies]
 # Testing
 criterion = "0.5"

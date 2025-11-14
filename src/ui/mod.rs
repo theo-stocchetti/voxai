@@ -3,6 +3,7 @@
 //! Platform-specific system tray implementations and settings UI
 
 pub mod menu;
+pub mod settings;
 
 // Platform-specific tray implementations
 #[cfg(target_os = "linux")]
