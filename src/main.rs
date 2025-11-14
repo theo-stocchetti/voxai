@@ -23,10 +23,11 @@ async fn main() -> Result<()> {
     info!("Version: {}", env!("CARGO_PKG_VERSION"));
 
     // Load configuration
-    let config = config::Config::load()?;
-    info!("Configuration loaded");
-    info!("Hotkey: {}", config.hotkey);
-    info!("Model size: {}", config.model_size);
+    let config = config::load_config()?;
+    info!("Configuration loaded from: {:?}", config::get_config_path()?);
+    info!("Hotkey: {}", config.hotkeys.toggle_recording);
+    info!("Model: {}", config.transcription.model);
+    info!("Sample rate: {} Hz", config.audio.sample_rate);
 
     // TODO: Initialize components
     // - Audio capture
