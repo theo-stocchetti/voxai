@@ -4,21 +4,20 @@
 //! Supports Windows, macOS, and Linux with hardware acceleration.
 
 use anyhow::Result;
-use log::{info, error};
+use log::{error, info};
 
 mod audio;
-mod transcription;
-mod ui;
 mod config;
+mod gpu;
 mod hotkeys;
 mod output;
-mod gpu;
+mod transcription;
+mod ui;
 
 #[tokio::main]
 async fn main() -> Result<()> {
     // Initialize logger
-    env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info"))
-        .init();
+    env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
 
     info!("VoxAI starting...");
     info!("Version: {}", env!("CARGO_PKG_VERSION"));

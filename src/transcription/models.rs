@@ -80,8 +80,8 @@ impl std::str::FromStr for ModelSize {
 
 /// Get the default model directory path
 pub fn get_models_dir() -> anyhow::Result<PathBuf> {
-    let home_dir = dirs::home_dir()
-        .ok_or_else(|| anyhow::anyhow!("Could not determine home directory"))?;
+    let home_dir =
+        dirs::home_dir().ok_or_else(|| anyhow::anyhow!("Could not determine home directory"))?;
 
     let models_dir = home_dir.join(".voxai").join("models");
 
