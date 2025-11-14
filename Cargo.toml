@@ -43,6 +43,19 @@ indicatif = "0.17"
 # Filesystem utilities
 tokio-util = { version = "0.7", features = ["io"] }
 
+# UI - System Tray
+tray-icon = "0.14"
+
+# UI - Global Hotkeys
+global-hotkey = "0.5"
+
+# UI - Text injection and clipboard
+enigo = "0.2"
+arboard = "3.3"
+
+# UI - Notifications
+notify-rust = "4.10"
+
 [dev-dependencies]
 # Testing
 criterion = "0.5"
