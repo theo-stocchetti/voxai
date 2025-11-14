@@ -6,9 +6,9 @@
 //! - Voice Activity Detection (VAD)
 //! - Audio buffering and resampling
 
+pub mod buffer;
 pub mod capture;
 pub mod device;
-pub mod buffer;
 
 // Future modules (to be implemented)
 // pub mod noise_reduction;

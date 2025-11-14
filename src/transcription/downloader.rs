@@ -43,7 +43,9 @@ pub async fn download_model(model: ModelSize) -> Result<std::path::PathBuf> {
     let pb = ProgressBar::new(total_size);
     pb.set_style(
         ProgressStyle::default_bar()
-            .template("{msg}\n[{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({eta})")?
+            .template(
+                "{msg}\n[{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({eta})",
+            )?
             .progress_chars("█▓▒░ "),
     );
     pb.set_message(format!("Downloading {} model", model));

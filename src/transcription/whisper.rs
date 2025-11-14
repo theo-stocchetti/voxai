@@ -31,10 +31,7 @@ impl WhisperContext {
         let model_path = super::models::get_model_path(model)?;
 
         if !model_path.exists() {
-            anyhow::bail!(
-                "Model {} not found. Please download it first.",
-                model
-            );
+            anyhow::bail!("Model {} not found. Please download it first.", model);
         }
 
         // TODO: Initialize actual whisper-rs context
