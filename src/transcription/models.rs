@@ -7,6 +7,7 @@ use std::path::PathBuf;
 
 /// Available Whisper model sizes
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[allow(dead_code)]
 pub enum ModelSize {
     /// Tiny model (~75 MB) - fastest, least accurate
     Tiny,
@@ -18,6 +19,7 @@ pub enum ModelSize {
     Medium,
 }
 
+#[allow(dead_code)]
 impl ModelSize {
     /// Get the filename for this model
     pub fn filename(&self) -> &'static str {
@@ -79,6 +81,7 @@ impl std::str::FromStr for ModelSize {
 }
 
 /// Get the default model directory path
+#[allow(dead_code)]
 pub fn get_models_dir() -> anyhow::Result<PathBuf> {
     let home_dir =
         dirs::home_dir().ok_or_else(|| anyhow::anyhow!("Could not determine home directory"))?;
@@ -94,12 +97,14 @@ pub fn get_models_dir() -> anyhow::Result<PathBuf> {
 }
 
 /// Get the full path for a specific model
+#[allow(dead_code)]
 pub fn get_model_path(model: ModelSize) -> anyhow::Result<PathBuf> {
     let models_dir = get_models_dir()?;
     Ok(models_dir.join(model.filename()))
 }
 
 /// Check if a model is already downloaded
+#[allow(dead_code)]
 pub fn is_model_downloaded(model: ModelSize) -> anyhow::Result<bool> {
     let model_path = get_model_path(model)?;
     Ok(model_path.exists())

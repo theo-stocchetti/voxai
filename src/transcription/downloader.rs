@@ -8,11 +8,11 @@ use indicatif::{ProgressBar, ProgressStyle};
 use log::{info, warn};
 use reqwest::Client;
 use sha2::{Digest, Sha256};
-use std::path::Path;
 use tokio::fs::File;
 use tokio::io::AsyncWriteExt;
 
 /// Download a Whisper model
+#[allow(dead_code)]
 pub async fn download_model(model: ModelSize) -> Result<std::path::PathBuf> {
     let model_path = get_model_path(model)?;
 
@@ -30,7 +30,7 @@ pub async fn download_model(model: ModelSize) -> Result<std::path::PathBuf> {
         .build()?;
 
     let response = client
-        .get(&model.download_url())
+        .get(model.download_url())
         .send()
         .await?
         .error_for_status()?;
@@ -91,6 +91,7 @@ pub async fn download_model(model: ModelSize) -> Result<std::path::PathBuf> {
 }
 
 /// Verify model file integrity
+#[allow(dead_code)]
 pub async fn verify_model(model: ModelSize) -> Result<bool> {
     let model_path = get_model_path(model)?;
 
@@ -119,6 +120,7 @@ pub async fn verify_model(model: ModelSize) -> Result<bool> {
 }
 
 /// Delete a downloaded model
+#[allow(dead_code)]
 pub async fn delete_model(model: ModelSize) -> Result<()> {
     let model_path = get_model_path(model)?;
 
@@ -131,6 +133,7 @@ pub async fn delete_model(model: ModelSize) -> Result<()> {
 }
 
 /// List all downloaded models
+#[allow(dead_code)]
 pub async fn list_downloaded_models() -> Result<Vec<ModelSize>> {
     let mut models = Vec::new();
 

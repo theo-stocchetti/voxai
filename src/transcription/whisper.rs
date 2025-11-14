@@ -12,11 +12,13 @@ use std::path::PathBuf;
 /// This is a placeholder structure until whisper-rs is properly integrated.
 /// whisper-rs requires CMake and whisper.cpp to be built, which needs to be
 /// done in the actual build environment.
+#[allow(dead_code)]
 pub struct WhisperContext {
     model_path: PathBuf,
     model_size: ModelSize,
 }
 
+#[allow(dead_code)]
 impl WhisperContext {
     /// Create a new Whisper context with the specified model
     ///
