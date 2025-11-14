@@ -3,7 +3,7 @@
 **Created**: 2025-11-14
 **Priority**: Critique
 **Type**: Feature
-**Status**: Todo
+**Status**: Done
 **Estimated Effort**: 2h
 **EPIC**: 1 - Infrastructure et Configuration du Projet
 
@@ -23,11 +23,11 @@ VoxAI est une application de transcription audio en temps réel multi-plateforme
 
 ## Acceptance Criteria
 
-- [ ] Projet Cargo initialisé avec structure modulaire
-- [ ] Compilation réussie avec `cargo build`
-- [ ] README.md de base créé
-- [ ] .gitignore configuré pour Rust
-- [ ] Dépendances principales ajoutées au Cargo.toml
+- [x] Projet Cargo initialisé avec structure modulaire
+- [x] Compilation réussie avec `cargo build`
+- [x] README.md de base créé
+- [x] .gitignore configuré pour Rust
+- [x] Dépendances principales ajoutées au Cargo.toml
 
 ---
 
@@ -60,30 +60,30 @@ env_logger = "0.11"
 
 ## Tasks Breakdown
 
-- [ ] Exécuter `cargo new voicescript --bin`
-- [ ] Créer structure de dossiers `src/{audio,transcription,ui,config,hotkeys,output}`
-- [ ] Ajouter dépendances de base au Cargo.toml
-- [ ] Créer .gitignore complet pour Rust
-- [ ] Créer README.md avec description du projet
-- [ ] Test de compilation: `cargo build`
-- [ ] Test d'exécution: `cargo run`
+- [x] Exécuter `cargo init --name voxai`
+- [x] Créer structure de dossiers `src/{audio,transcription,ui,config,hotkeys,output,gpu}`
+- [x] Ajouter dépendances de base au Cargo.toml
+- [x] Créer .gitignore complet pour Rust
+- [x] Créer README.md avec description du projet
+- [x] Test de compilation: `cargo build`
+- [x] Test d'exécution: `cargo run`
 
 ---
 
 ## Test Plan
 
 ### Manual Testing
-- [ ] Vérifier que `cargo build` réussit
-- [ ] Vérifier que `cargo run` exécute un "Hello World"
-- [ ] Vérifier la structure des dossiers
+- [x] Vérifier que `cargo build` réussit
+- [x] Vérifier que `cargo run` exécute correctement avec logging
+- [x] Vérifier la structure des dossiers
 
 ---
 
 ## Documentation Updates
 
-- [ ] Créer README.md initial
-- [ ] Documenter la structure du projet
-- [ ] Ajouter instructions de build de base
+- [x] Créer README.md initial
+- [x] Documenter la structure du projet
+- [x] Ajouter instructions de build de base
 
 ---
 
@@ -108,9 +108,9 @@ cargo build
 
 ## Definition of Done
 
-- [ ] Code compilé sans erreurs
-- [ ] Structure de dossiers créée
-- [ ] README.md présent
-- [ ] .gitignore configuré
-- [ ] Commit initial créé
-- [ ] Issue moved to done folder
+- [x] Code compilé sans erreurs
+- [x] Structure de dossiers créée
+- [x] README.md présent
+- [x] .gitignore configuré
+- [ ] Commit initial créé (sera fait en batch)
+- [x] Issue moved to done folder
