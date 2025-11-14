@@ -57,9 +57,22 @@ nnnoiseless = "0.5"
 # Voice Activity Detection
 webrtc-vad = "0.4"
 
-# UI (egui for settings window)
-egui = "0.24"
+# UI - System Tray
+tray-icon = "0.14"
+
+# UI - Global Hotkeys
+global-hotkey = "0.5"
+
+# UI - Text injection and clipboard
+enigo = "0.2"
+arboard = "3.3"
+
+# UI - Notifications
+notify-rust = "4.10"
+
+# UI - Settings Window
 eframe = "0.24"
+egui = "0.24"
 
 [dev-dependencies]
 # Testing

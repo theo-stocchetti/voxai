@@ -11,6 +11,7 @@ pub struct SettingsWindow {
     config: Config,
     has_changes: bool,
     status_message: Option<String>,
+    show_advanced: bool,
 }
 
 impl SettingsWindow {
@@ -20,6 +21,7 @@ impl SettingsWindow {
             config,
             has_changes: false,
             status_message: None,
+            show_advanced: false,
         }
     }
 
@@ -181,6 +183,25 @@ impl eframe::App for SettingsWindow {
     }
 }
 
+/// Launch settings window (non-blocking)
+pub fn launch_settings_window(config: Config) -> Result<()> {
+    log::info!("Launching settings window");
+
+    // Spawn in separate thread to avoid blocking
+    std::thread::spawn(move || {
+        match SettingsWindow::run(config) {
+            Ok(_) => {
+                log::info!("Settings window closed");
+            }
+            Err(e) => {
+                log::error!("Settings window error: {}", e);
+            }
+        }
+    });
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -191,6 +212,7 @@ mod tests {
         let settings = SettingsWindow::new(config);
         assert!(!settings.has_changes);
         assert!(settings.status_message.is_none());
+        assert!(!settings.show_advanced);
     }
 
     #[test]

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <!-- VoxAI Recording State Icon - Active Microphone (Red) -->
+  <g fill="#E74C3C" stroke="#E74C3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Microphone body (filled) -->
+    <rect x="18" y="10" width="12" height="16" rx="6" fill="#E74C3C" />
+    <!-- Microphone stand -->
+    <path d="M 24 26 L 24 34" />
+    <path d="M 18 34 L 30 34" />
+    <!-- Sound waves (active) -->
+    <path d="M 12 20 Q 10 24 12 28" stroke-width="2.5" />
+    <path d="M 36 20 Q 38 24 36 28" stroke-width="2.5" />
+    <path d="M 8 18 Q 6 24 8 30" opacity="0.7" />
+    <path d="M 40 18 Q 42 24 40 30" opacity="0.7" />
+  </g>
+  <!-- Recording indicator (pulsing red dot) -->
+  <circle cx="32" cy="14" r="4" fill="#FF0000" opacity="0.9">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="1s" repeatCount="indefinite" />
+  </circle>
+</svg>

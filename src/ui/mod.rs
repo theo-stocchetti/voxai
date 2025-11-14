@@ -2,11 +2,25 @@
 //!
 //! Platform-specific system tray implementations and settings UI
 
-// Settings UI (egui)
+pub mod menu;
 pub mod settings;
 
-// Platform-specific modules (to be implemented)
-// pub mod tray_windows;
-// pub mod tray_macos;
-// pub mod tray_linux;
-// pub mod menu;
+// Platform-specific tray implementations
+#[cfg(target_os = "linux")]
+pub mod tray_linux;
+
+#[cfg(target_os = "windows")]
+pub mod tray_windows;
+
+#[cfg(target_os = "macos")]
+pub mod tray_macos;
+
+// Re-export the appropriate tray for the current platform
+#[cfg(target_os = "linux")]
+pub use tray_linux::LinuxTray as Tray;
+
+#[cfg(target_os = "windows")]
+pub use tray_windows::WindowsTray as Tray;
+
+#[cfg(target_os = "macos")]
+pub use tray_macos::MacOSTray as Tray;
