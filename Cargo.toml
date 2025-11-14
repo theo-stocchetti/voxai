@@ -57,6 +57,10 @@ nnnoiseless = "0.5"
 # Voice Activity Detection
 webrtc-vad = "0.4"
 
+# UI (egui for settings window)
+egui = "0.24"
+eframe = "0.24"
+
 [dev-dependencies]
 # Testing
 criterion = "0.5"
