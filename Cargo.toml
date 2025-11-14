@@ -43,6 +43,11 @@ indicatif = "0.17"
 # Filesystem utilities
 tokio-util = { version = "0.7", features = ["io"] }
 
+# Audio capture and processing
+cpal = "0.15"
+ringbuf = "0.3"
+rubato = "0.14"
+
 [dev-dependencies]
 # Testing
 criterion = "0.5"
