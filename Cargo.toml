@@ -51,6 +51,9 @@ rubato = "0.14"
 # System information for model auto-selection
 sysinfo = "0.30"
 
+# Noise reduction
+nnnoiseless = "0.5"
+
 [dev-dependencies]
 # Testing
 criterion = "0.5"
