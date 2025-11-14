@@ -1,0 +1,271 @@
+name: GPU Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      gpu_backend:
+        description: 'GPU Backend'
+        required: true
+        default: 'cuda'
+        type: choice
+        options:
+          - cuda
+          - metal
+          - opencl
+      build_profile:
+        description: 'Build profile'
+        required: true
+        default: 'release'
+        type: choice
+        options:
+          - debug
+          - release
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-cuda:
+    name: Build with CUDA - ${{ matrix.os }} (${{ github.event.inputs.build_profile }})
+    if: ${{ github.event.inputs.gpu_backend == 'cuda' }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            platform: linux
+            cuda_version: '12.3.2'
+          - os: windows-latest
+            platform: windows
+            cuda_version: '12.3.2'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - name: Install CUDA Toolkit (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        uses: Jimver/cuda-toolkit@v0.2.14
+        with:
+          cuda: ${{ matrix.cuda_version }}
+          method: 'network'
+          sub-packages: '["nvcc", "cudart"]'
+
+      - name: Install CUDA Toolkit (Windows)
+        if: matrix.os == 'windows-latest'
+        uses: Jimver/cuda-toolkit@v0.2.14
+        with:
+          cuda: ${{ matrix.cuda_version }}
+          method: 'network'
+          sub-packages: '["nvcc", "cudart"]'
+
+      - name: Install Linux dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libasound2-dev \
+            libxdo-dev \
+            libgtk-3-dev \
+            libssl-dev \
+            pkg-config
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cuda-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cuda-cargo-registry-
+
+      - name: Cache cargo index
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cuda-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cuda-cargo-git-
+
+      - name: Cache target directory
+        uses: actions/cache@v4
+        with:
+          path: target
+          key: ${{ runner.os }}-cuda-target-${{ github.event.inputs.build_profile }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cuda-target-${{ github.event.inputs.build_profile }}-
+            ${{ runner.os }}-cuda-target-
+
+      - name: Verify CUDA installation
+        run: nvcc --version
+
+      - name: Build with CUDA (debug)
+        if: ${{ github.event.inputs.build_profile == 'debug' }}
+        run: cargo build --verbose --features cuda
+
+      - name: Build with CUDA (release)
+        if: ${{ github.event.inputs.build_profile == 'release' }}
+        run: cargo build --release --verbose --features cuda
+
+      - name: Run tests
+        run: cargo test --verbose --features cuda
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: voxai-${{ matrix.platform }}-cuda-${{ github.event.inputs.build_profile }}
+          path: |
+            target/${{ github.event.inputs.build_profile }}/voxai${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+          retention-days: 30
+
+  build-metal:
+    name: Build with Metal - macOS (${{ github.event.inputs.build_profile }})
+    if: ${{ github.event.inputs.gpu_backend == 'metal' }}
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/registry
+          key: macos-metal-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            macos-metal-cargo-registry-
+
+      - name: Cache cargo index
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/git
+          key: macos-metal-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            macos-metal-cargo-git-
+
+      - name: Cache target directory
+        uses: actions/cache@v4
+        with:
+          path: target
+          key: macos-metal-target-${{ github.event.inputs.build_profile }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            macos-metal-target-${{ github.event.inputs.build_profile }}-
+            macos-metal-target-
+
+      - name: Build with Metal (debug)
+        if: ${{ github.event.inputs.build_profile == 'debug' }}
+        run: cargo build --verbose --features metal
+
+      - name: Build with Metal (release)
+        if: ${{ github.event.inputs.build_profile == 'release' }}
+        run: cargo build --release --verbose --features metal
+
+      - name: Run tests
+        run: cargo test --verbose --features metal
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: voxai-macos-metal-${{ github.event.inputs.build_profile }}
+          path: |
+            target/${{ github.event.inputs.build_profile }}/voxai
+          retention-days: 30
+
+  build-opencl:
+    name: Build with OpenCL - ${{ matrix.os }} (${{ github.event.inputs.build_profile }})
+    if: ${{ github.event.inputs.gpu_backend == 'opencl' }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: macos
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - name: Install OpenCL (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ocl-icd-opencl-dev \
+            opencl-headers \
+            libasound2-dev \
+            libxdo-dev \
+            libgtk-3-dev \
+            libssl-dev \
+            pkg-config
+
+      - name: Install OpenCL (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          # OpenCL is typically pre-installed on Windows runners
+          echo "Using pre-installed OpenCL"
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-opencl-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-opencl-cargo-registry-
+
+      - name: Cache cargo index
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-opencl-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-opencl-cargo-git-
+
+      - name: Cache target directory
+        uses: actions/cache@v4
+        with:
+          path: target
+          key: ${{ runner.os }}-opencl-target-${{ github.event.inputs.build_profile }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-opencl-target-${{ github.event.inputs.build_profile }}-
+            ${{ runner.os }}-opencl-target-
+
+      - name: Build with OpenCL (debug)
+        if: ${{ github.event.inputs.build_profile == 'debug' }}
+        run: cargo build --verbose --features opencl
+
+      - name: Build with OpenCL (release)
+        if: ${{ github.event.inputs.build_profile == 'release' }}
+        run: cargo build --release --verbose --features opencl
+
+      - name: Run tests
+        run: cargo test --verbose --features opencl
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: voxai-${{ matrix.platform }}-opencl-${{ github.event.inputs.build_profile }}
+          path: |
+            target/${{ github.event.inputs.build_profile }}/voxai${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+          retention-days: 30
