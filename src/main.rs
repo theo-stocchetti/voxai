@@ -36,9 +36,22 @@ async fn main() -> Result<()> {
     // - Text output handler
 
     info!("VoxAI initialized successfully");
-    println!("VoxAI is running. Press Ctrl+C to quit.");
+    println!("\n===========================================");
+    println!("  VoxAI is running!");
+    println!("  Press Ctrl+C to quit");
+    println!("===========================================\n");
 
-    // TODO: Run main event loop
+    // Wait for Ctrl+C signal
+    match tokio::signal::ctrl_c().await {
+        Ok(()) => {
+            info!("Received Ctrl+C signal, shutting down...");
+            println!("\nShutting down VoxAI...");
+        }
+        Err(err) => {
+            eprintln!("Error waiting for Ctrl+C: {}", err);
+        }
+    }
 
+    info!("VoxAI shutdown complete");
     Ok(())
 }
