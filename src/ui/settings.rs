@@ -2,7 +2,7 @@
 //!
 //! Provides a graphical settings interface for configuring VoxAI
 
-use crate::config::{Config, save_config};
+use crate::config::{save_config, Config};
 use anyhow::Result;
 use eframe::egui;
 
@@ -76,7 +76,10 @@ impl eframe::App for SettingsWindow {
                 ui.heading("Audio");
                 ui.horizontal(|ui| {
                     ui.label("Input Device:");
-                    if ui.text_edit_singleline(&mut self.config.audio.input_device).changed() {
+                    if ui
+                        .text_edit_singleline(&mut self.config.audio.input_device)
+                        .changed()
+                    {
                         self.has_changes = true;
                     }
                 });
@@ -87,7 +90,13 @@ impl eframe::App for SettingsWindow {
                     ui.label("(Fixed at 16kHz for Whisper)");
                 });
 
-                if ui.checkbox(&mut self.config.audio.noise_reduction, "Enable Noise Reduction").changed() {
+                if ui
+                    .checkbox(
+                        &mut self.config.audio.noise_reduction,
+                        "Enable Noise Reduction",
+                    )
+                    .changed()
+                {
                     self.has_changes = true;
                 }
 
@@ -103,7 +112,14 @@ impl eframe::App for SettingsWindow {
                         .show_ui(ui, |ui| {
                             let models = ["tiny", "base", "small", "medium"];
                             for model in models {
-                                if ui.selectable_value(&mut self.config.transcription.model, model.to_string(), model).clicked() {
+                                if ui
+                                    .selectable_value(
+                                        &mut self.config.transcription.model,
+                                        model.to_string(),
+                                        model,
+                                    )
+                                    .clicked()
+                                {
                                     self.has_changes = true;
                                 }
                             }
@@ -112,19 +128,34 @@ impl eframe::App for SettingsWindow {
 
                 ui.horizontal(|ui| {
                     ui.label("Language:");
-                    if ui.text_edit_singleline(&mut self.config.transcription.language).changed() {
+                    if ui
+                        .text_edit_singleline(&mut self.config.transcription.language)
+                        .changed()
+                    {
                         self.has_changes = true;
                     }
                     ui.label("(Use 'auto' for automatic detection)");
                 });
 
-                if ui.checkbox(&mut self.config.transcription.enable_gpu, "Enable GPU Acceleration").changed() {
+                if ui
+                    .checkbox(
+                        &mut self.config.transcription.enable_gpu,
+                        "Enable GPU Acceleration",
+                    )
+                    .changed()
+                {
                     self.has_changes = true;
                 }
 
                 ui.horizontal(|ui| {
                     ui.label("Voice Activity Detection:");
-                    if ui.add(egui::Slider::new(&mut self.config.transcription.vad_aggressiveness, 0..=3)).changed() {
+                    if ui
+                        .add(egui::Slider::new(
+                            &mut self.config.transcription.vad_aggressiveness,
+                            0..=3,
+                        ))
+                        .changed()
+                    {
                         self.has_changes = true;
                     }
                 });
@@ -135,7 +166,10 @@ impl eframe::App for SettingsWindow {
                 ui.heading("Hotkeys");
                 ui.horizontal(|ui| {
                     ui.label("Toggle Recording:");
-                    if ui.text_edit_singleline(&mut self.config.hotkeys.toggle_recording).changed() {
+                    if ui
+                        .text_edit_singleline(&mut self.config.hotkeys.toggle_recording)
+                        .changed()
+                    {
                         self.has_changes = true;
                     }
                 });
@@ -145,15 +179,30 @@ impl eframe::App for SettingsWindow {
                 // UI Settings
                 ui.heading("User Interface");
 
-                if ui.checkbox(&mut self.config.ui.show_overlay, "Show Status Overlay").changed() {
+                if ui
+                    .checkbox(&mut self.config.ui.show_overlay, "Show Status Overlay")
+                    .changed()
+                {
                     self.has_changes = true;
                 }
 
-                if ui.checkbox(&mut self.config.ui.system_notifications, "Enable System Notifications").changed() {
+                if ui
+                    .checkbox(
+                        &mut self.config.ui.system_notifications,
+                        "Enable System Notifications",
+                    )
+                    .changed()
+                {
                     self.has_changes = true;
                 }
 
-                if ui.checkbox(&mut self.config.ui.auto_capitalization, "Auto-Capitalize First Letter").changed() {
+                if ui
+                    .checkbox(
+                        &mut self.config.ui.auto_capitalization,
+                        "Auto-Capitalize First Letter",
+                    )
+                    .changed()
+                {
                     self.has_changes = true;
                 }
             });
@@ -188,14 +237,12 @@ pub fn launch_settings_window(config: Config) -> Result<()> {
     log::info!("Launching settings window");
 
     // Spawn in separate thread to avoid blocking
-    std::thread::spawn(move || {
-        match SettingsWindow::run(config) {
-            Ok(_) => {
-                log::info!("Settings window closed");
-            }
-            Err(e) => {
-                log::error!("Settings window error: {}", e);
-            }
+    std::thread::spawn(move || match SettingsWindow::run(config) {
+        Ok(_) => {
+            log::info!("Settings window closed");
+        }
+        Err(e) => {
+            log::error!("Settings window error: {}", e);
         }
     });
 

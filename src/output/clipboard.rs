@@ -7,8 +7,7 @@ use arboard::Clipboard;
 
 /// Copy text to clipboard
 pub fn copy_to_clipboard(text: &str) -> Result<()> {
-    let mut clipboard = Clipboard::new()
-        .context("Failed to access clipboard")?;
+    let mut clipboard = Clipboard::new().context("Failed to access clipboard")?;
 
     clipboard
         .set_text(text)
@@ -20,8 +19,7 @@ pub fn copy_to_clipboard(text: &str) -> Result<()> {
 
 /// Get text from clipboard
 pub fn get_from_clipboard() -> Result<String> {
-    let mut clipboard = Clipboard::new()
-        .context("Failed to access clipboard")?;
+    let mut clipboard = Clipboard::new().context("Failed to access clipboard")?;
 
     let text = clipboard
         .get_text()

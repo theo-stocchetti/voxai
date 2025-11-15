@@ -6,11 +6,11 @@
 //! - macOS: ~/Library/Application Support/VoxAI\config.json
 //! - Linux: ~/.config/voxai/config.json
 
-mod schema;
 pub mod language;
+mod schema;
 
-pub use schema::*;
 pub use language::Language;
+pub use schema::*;
 
 use anyhow::{Context, Result};
 use std::path::PathBuf;
@@ -23,8 +23,7 @@ pub fn get_config_dir() -> Result<PathBuf> {
 
     // Ensure directory exists
     if !config_dir.exists() {
-        std::fs::create_dir_all(&config_dir)
-            .context("Failed to create config directory")?;
+        std::fs::create_dir_all(&config_dir).context("Failed to create config directory")?;
     }
 
     Ok(config_dir)
@@ -52,12 +51,11 @@ pub fn load_config() -> Result<Config> {
         .with_context(|| format!("Failed to read config file: {}", path.display()))?;
 
     // Parse JSON
-    let config: Config = serde_json::from_str(&contents)
-        .context("Failed to parse config file (invalid JSON)")?;
+    let config: Config =
+        serde_json::from_str(&contents).context("Failed to parse config file (invalid JSON)")?;
 
     // Validate
-    validate_config(&config)
-        .context("Config validation failed")?;
+    validate_config(&config).context("Config validation failed")?;
 
     log::info!("Configuration loaded successfully from: {}", path.display());
     Ok(config)
@@ -68,12 +66,10 @@ pub fn save_config(config: &Config) -> Result<()> {
     let path = get_config_path()?;
 
     // Validate before saving
-    validate_config(config)
-        .context("Cannot save invalid configuration")?;
+    validate_config(config).context("Cannot save invalid configuration")?;
 
     // Serialize to pretty JSON
-    let json = serde_json::to_string_pretty(config)
-        .context("Failed to serialize config")?;
+    let json = serde_json::to_string_pretty(config).context("Failed to serialize config")?;
 
     // Write to file
     std::fs::write(&path, json)
@@ -129,9 +125,7 @@ pub fn reset_config() -> Result<()> {
 /// Check if configuration file exists
 #[allow(dead_code)]
 pub fn config_exists() -> bool {
-    get_config_path()
-        .map(|p| p.exists())
-        .unwrap_or(false)
+    get_config_path().map(|p| p.exists()).unwrap_or(false)
 }
 
 #[cfg(test)]

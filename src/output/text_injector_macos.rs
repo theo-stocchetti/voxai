@@ -41,7 +41,11 @@ impl TextInjector {
 
     /// Inject text into the active application
     pub fn inject(&mut self, text: &str) -> Result<()> {
-        log::info!("Injecting {} characters using {:?}", text.len(), self.method);
+        log::info!(
+            "Injecting {} characters using {:?}",
+            text.len(),
+            self.method
+        );
 
         match self.method {
             OutputMethod::TypeText => self.type_text(text),
@@ -72,8 +76,7 @@ impl TextInjector {
 
     /// Copy text to clipboard
     fn copy_to_clipboard(&self, text: &str) -> Result<()> {
-        super::clipboard::copy_to_clipboard(text)
-            .context("Failed to copy text to clipboard")
+        super::clipboard::copy_to_clipboard(text).context("Failed to copy text to clipboard")
     }
 
     /// Set delay between key presses (in milliseconds)

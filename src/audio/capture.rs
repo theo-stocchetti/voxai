@@ -255,7 +255,8 @@ impl AudioCapture {
 
         // Resample if needed
         if config.sample_rate.0 != capture_config.sample_rate {
-            *samples = Self::simple_resample(samples, config.sample_rate.0, capture_config.sample_rate);
+            *samples =
+                Self::simple_resample(samples, config.sample_rate.0, capture_config.sample_rate);
         }
 
         // Write to buffer

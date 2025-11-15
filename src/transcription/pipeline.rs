@@ -92,7 +92,10 @@ impl TranscriptionPipeline {
             anyhow::bail!("Pipeline already running");
         }
 
-        log::info!("Starting transcription pipeline with model: {}", self.config.model);
+        log::info!(
+            "Starting transcription pipeline with model: {}",
+            self.config.model
+        );
 
         // Create channels
         let (audio_tx, audio_rx) = mpsc::unbounded_channel();
@@ -129,7 +132,8 @@ impl TranscriptionPipeline {
     /// Send audio samples to the pipeline
     pub fn send_audio(&self, samples: Vec<f32>) -> Result<()> {
         if let Some(tx) = &self.audio_tx {
-            tx.send(samples).context("Failed to send audio to pipeline")?;
+            tx.send(samples)
+                .context("Failed to send audio to pipeline")?;
         }
         Ok(())
     }
@@ -179,10 +183,7 @@ async fn run_pipeline(
     // Main pipeline loop
     while running.load(Ordering::Relaxed) {
         // Receive audio with timeout
-        match tokio::time::timeout(
-            std::time::Duration::from_millis(100),
-            audio_rx.recv()
-        ).await {
+        match tokio::time::timeout(std::time::Duration::from_millis(100), audio_rx.recv()).await {
             Ok(Some(samples)) => {
                 // Add to buffer
                 buffer.extend_from_slice(&samples);

@@ -2,8 +2,8 @@
 //!
 //! Provides menu bar functionality for macOS
 
-use tray_icon::{Icon, TrayIcon, TrayIconBuilder};
 use anyhow::{Context, Result};
+use tray_icon::{Icon, TrayIcon, TrayIconBuilder};
 
 use super::menu::{create_menu, AppState, MenuItems};
 
@@ -28,8 +28,7 @@ impl MacOSTray {
         let icon_processing = Self::load_icon("processing")?;
 
         // Create menu
-        let (menu, menu_items) = create_menu()
-            .context("Failed to create menu bar menu")?;
+        let (menu, menu_items) = create_menu().context("Failed to create menu bar menu")?;
 
         // Build menu bar icon
         let tray = TrayIconBuilder::new()
@@ -73,8 +72,7 @@ impl MacOSTray {
         // Create a placeholder RGBA icon (22x22 for macOS menu bar)
         // Template icons should be black on transparent
         let rgba = vec![0u8, 0, 0, 255].repeat(22 * 22);
-        Icon::from_rgba(rgba, 22, 22)
-            .context("Failed to create placeholder icon")
+        Icon::from_rgba(rgba, 22, 22).context("Failed to create placeholder icon")
     }
 
     /// Update the menu bar icon and menu for a new state
@@ -83,7 +81,11 @@ impl MacOSTray {
             return Ok(());
         }
 
-        log::info!("Updating macOS menu bar state: {:?} -> {:?}", self.current_state, state);
+        log::info!(
+            "Updating macOS menu bar state: {:?} -> {:?}",
+            self.current_state,
+            state
+        );
 
         // Update icon
         let icon = match state {
@@ -92,7 +94,8 @@ impl MacOSTray {
             AppState::Processing => &self.icon_processing,
         };
 
-        self.tray.set_icon(Some(icon.clone()))
+        self.tray
+            .set_icon(Some(icon.clone()))
             .context("Failed to update menu bar icon")?;
 
         // Update menu

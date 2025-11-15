@@ -4,9 +4,9 @@
 
 mod common;
 
-use voxai::config::{Config, load_config, save_config};
 use std::env;
 use std::fs;
+use voxai::config::{load_config, save_config, Config};
 
 #[test]
 fn test_full_config_lifecycle() {

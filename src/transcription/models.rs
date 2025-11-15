@@ -33,9 +33,9 @@ impl ModelSize {
     /// Get the expected file size in bytes (approximate)
     pub fn file_size(&self) -> u64 {
         match self {
-            Self::Tiny => 75_852_960,    // ~75 MB
-            Self::Base => 141_925_216,   // ~142 MB
-            Self::Small => 466_179_104,  // ~466 MB
+            Self::Tiny => 75_852_960,      // ~75 MB
+            Self::Base => 141_925_216,     // ~142 MB
+            Self::Small => 466_179_104,    // ~466 MB
             Self::Medium => 1_533_628_064, // ~1.5 GB
         }
     }
