@@ -38,10 +38,7 @@ impl VoiceActivityDetector {
             );
         }
 
-        let vad = Vad::new_with_rate_and_mode(
-            Self::sample_rate_to_enum(sample_rate)?,
-            mode,
-        );
+        let vad = Vad::new_with_rate_and_mode(Self::sample_rate_to_enum(sample_rate)?, mode);
 
         Ok(Self {
             vad,
@@ -67,7 +64,9 @@ impl VoiceActivityDetector {
         self.validate_frame_size(audio_frame.len())?;
 
         // Run VAD on frame
-        let has_speech = self.vad.is_voice_segment(audio_frame)
+        let has_speech = self
+            .vad
+            .is_voice_segment(audio_frame)
             .map_err(|_| anyhow::anyhow!("VAD failed to process frame"))?;
 
         // Apply hysteresis

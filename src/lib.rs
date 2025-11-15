@@ -12,4 +12,4 @@ pub mod transcription;
 pub mod ui;
 
 // Re-export commonly used types for convenience
-pub use config::{Config, AudioConfig, TranscriptionConfig, HotkeyConfig, UiConfig};
+pub use config::{AudioConfig, Config, HotkeyConfig, TranscriptionConfig, UiConfig};

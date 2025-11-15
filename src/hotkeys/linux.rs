@@ -3,10 +3,10 @@
 //! Uses the global-hotkey crate with X11 support
 //! Wayland support is limited due to security restrictions
 
-use anyhow::{Context, Result, anyhow};
+use anyhow::{anyhow, Context, Result};
 use global_hotkey::{
-    GlobalHotKeyEvent, GlobalHotKeyManager, HotKeyState,
     hotkey::{Code, HotKey, Modifiers},
+    GlobalHotKeyEvent, GlobalHotKeyManager, HotKeyState,
 };
 use std::sync::Arc;
 use std::thread;
@@ -57,11 +57,10 @@ impl HotkeyManager {
             );
         }
 
-        let manager = GlobalHotKeyManager::new()
-            .context("Failed to create global hotkey manager")?;
+        let manager =
+            GlobalHotKeyManager::new().context("Failed to create global hotkey manager")?;
 
-        let hotkey = Self::parse_hotkey(hotkey_str)
-            .context("Failed to parse hotkey string")?;
+        let hotkey = Self::parse_hotkey(hotkey_str).context("Failed to parse hotkey string")?;
 
         match manager.register(hotkey) {
             Ok(_) => {
@@ -213,8 +212,7 @@ impl HotkeyManager {
             }
         }
 
-        let key_code = key_code
-            .ok_or_else(|| anyhow!("No key specified in hotkey string"))?;
+        let key_code = key_code.ok_or_else(|| anyhow!("No key specified in hotkey string"))?;
 
         Ok(HotKey::new(Some(modifiers), key_code))
     }

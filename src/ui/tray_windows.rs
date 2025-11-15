@@ -2,8 +2,8 @@
 //!
 //! Provides system tray functionality for Windows 10/11
 
-use tray_icon::{Icon, TrayIcon, TrayIconBuilder};
 use anyhow::{Context, Result};
+use tray_icon::{Icon, TrayIcon, TrayIconBuilder};
 
 use super::menu::{create_menu, AppState, MenuItems};
 
@@ -28,8 +28,7 @@ impl WindowsTray {
         let icon_processing = Self::load_icon("processing")?;
 
         // Create menu
-        let (menu, menu_items) = create_menu()
-            .context("Failed to create tray menu")?;
+        let (menu, menu_items) = create_menu().context("Failed to create tray menu")?;
 
         // Build tray icon
         let tray = TrayIconBuilder::new()
@@ -63,13 +62,12 @@ impl WindowsTray {
             log::warn!("Icon file not found: {}, using placeholder", icon_path);
             // Create a placeholder RGBA icon (16x16)
             let color = match name {
-                "recording" => [255, 0, 0, 255],   // Red
+                "recording" => [255, 0, 0, 255],     // Red
                 "processing" => [52, 152, 219, 255], // Blue
-                _ => [107, 107, 107, 255],         // Gray
+                _ => [107, 107, 107, 255],           // Gray
             };
             let rgba = color.repeat(16 * 16);
-            Icon::from_rgba(rgba.to_vec(), 16, 16)
-                .context("Failed to create placeholder icon")
+            Icon::from_rgba(rgba.to_vec(), 16, 16).context("Failed to create placeholder icon")
         }
     }
 
@@ -79,7 +77,11 @@ impl WindowsTray {
             return Ok(());
         }
 
-        log::info!("Updating Windows tray state: {:?} -> {:?}", self.current_state, state);
+        log::info!(
+            "Updating Windows tray state: {:?} -> {:?}",
+            self.current_state,
+            state
+        );
 
         // Update icon
         let icon = match state {
@@ -88,7 +90,8 @@ impl WindowsTray {
             AppState::Processing => &self.icon_processing,
         };
 
-        self.tray.set_icon(Some(icon.clone()))
+        self.tray
+            .set_icon(Some(icon.clone()))
             .context("Failed to update tray icon")?;
 
         // Update menu

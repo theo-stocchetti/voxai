@@ -21,8 +21,13 @@ pub fn list_devices() -> Result<Vec<DeviceInfo>> {
 
     let mut devices = Vec::new();
 
-    for device in host.input_devices().context("Failed to enumerate input devices")? {
-        let name = device.name().unwrap_or_else(|_| "Unknown Device".to_string());
+    for device in host
+        .input_devices()
+        .context("Failed to enumerate input devices")?
+    {
+        let name = device
+            .name()
+            .unwrap_or_else(|_| "Unknown Device".to_string());
         let is_default = Some(&name) == default_name.as_ref();
 
         // Get supported configurations
@@ -33,9 +38,7 @@ pub fn list_devices() -> Result<Vec<DeviceInfo>> {
 
         let supported_sample_rates: Vec<u32> = supported_configs
             .iter()
-            .flat_map(|config| {
-                vec![config.min_sample_rate().0, config.max_sample_rate().0]
-            })
+            .flat_map(|config| vec![config.min_sample_rate().0, config.max_sample_rate().0])
             .collect();
 
         let supported_channels: Vec<u16> = supported_configs
@@ -65,7 +68,10 @@ pub fn get_default_device() -> Result<cpal::Device> {
 pub fn find_device_by_name(name: &str) -> Result<Option<cpal::Device>> {
     let host = cpal::default_host();
 
-    for device in host.input_devices().context("Failed to enumerate input devices")? {
+    for device in host
+        .input_devices()
+        .context("Failed to enumerate input devices")?
+    {
         if let Ok(device_name) = device.name() {
             if device_name == name {
                 return Ok(Some(device));

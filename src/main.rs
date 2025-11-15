@@ -24,7 +24,10 @@ async fn main() -> Result<()> {
 
     // Load configuration
     let config = config::load_config()?;
-    info!("Configuration loaded from: {:?}", config::get_config_path()?);
+    info!(
+        "Configuration loaded from: {:?}",
+        config::get_config_path()?
+    );
     info!("Hotkey: {}", config.hotkeys.toggle_recording);
     info!("Model: {}", config.transcription.model);
     info!("Sample rate: {} Hz", config.audio.sample_rate);

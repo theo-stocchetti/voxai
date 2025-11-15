@@ -3,9 +3,9 @@
 //! Provides system tray functionality for Linux desktop environments
 //! (GNOME, KDE, XFCE, etc.)
 
-use tray_icon::{Icon, TrayIcon, TrayIconBuilder};
-use std::path::PathBuf;
 use anyhow::{Context, Result};
+use std::path::PathBuf;
+use tray_icon::{Icon, TrayIcon, TrayIconBuilder};
 
 use super::menu::{create_menu, AppState, MenuItems};
 
@@ -30,8 +30,7 @@ impl LinuxTray {
         let icon_processing = Self::load_icon("processing")?;
 
         // Create menu
-        let (menu, menu_items) = create_menu()
-            .context("Failed to create tray menu")?;
+        let (menu, menu_items) = create_menu().context("Failed to create tray menu")?;
 
         // Build tray icon
         let tray = TrayIconBuilder::new()
@@ -67,8 +66,7 @@ impl LinuxTray {
             log::warn!("Icon file not found: {}, using placeholder", icon_path);
             // Create a minimal RGBA icon (16x16 red square as placeholder)
             let rgba = vec![255u8, 0, 0, 255].repeat(16 * 16);
-            Icon::from_rgba(rgba, 16, 16)
-                .context("Failed to create placeholder icon")
+            Icon::from_rgba(rgba, 16, 16).context("Failed to create placeholder icon")
         }
     }
 
@@ -78,7 +76,11 @@ impl LinuxTray {
             return Ok(());
         }
 
-        log::info!("Updating tray state: {:?} -> {:?}", self.current_state, state);
+        log::info!(
+            "Updating tray state: {:?} -> {:?}",
+            self.current_state,
+            state
+        );
 
         // Update icon
         let icon = match state {
@@ -87,7 +89,8 @@ impl LinuxTray {
             AppState::Processing => &self.icon_processing,
         };
 
-        self.tray.set_icon(Some(icon.clone()))
+        self.tray
+            .set_icon(Some(icon.clone()))
             .context("Failed to update tray icon")?;
 
         // Update menu

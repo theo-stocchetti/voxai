@@ -2,10 +2,10 @@
 //!
 //! Uses the global-hotkey crate with Windows RegisterHotKey API
 
-use anyhow::{Context, Result, anyhow};
+use anyhow::{anyhow, Context, Result};
 use global_hotkey::{
-    GlobalHotKeyEvent, GlobalHotKeyManager, HotKeyState,
     hotkey::{Code, HotKey, Modifiers},
+    GlobalHotKeyEvent, GlobalHotKeyManager, HotKeyState,
 };
 use std::sync::{Arc, Mutex};
 use std::thread;
@@ -28,13 +28,13 @@ impl HotkeyManager {
     pub fn new(hotkey_str: &str, callback: HotkeyCallback) -> Result<Self> {
         log::info!("Registering Windows global hotkey: {}", hotkey_str);
 
-        let manager = GlobalHotKeyManager::new()
-            .context("Failed to create global hotkey manager")?;
+        let manager =
+            GlobalHotKeyManager::new().context("Failed to create global hotkey manager")?;
 
-        let hotkey = Self::parse_hotkey(hotkey_str)
-            .context("Failed to parse hotkey string")?;
+        let hotkey = Self::parse_hotkey(hotkey_str).context("Failed to parse hotkey string")?;
 
-        manager.register(hotkey)
+        manager
+            .register(hotkey)
             .context("Failed to register hotkey - it may already be in use")?;
 
         let manager_arc = Arc::new(manager);
@@ -145,8 +145,7 @@ impl HotkeyManager {
             }
         }
 
-        let key_code = key_code
-            .ok_or_else(|| anyhow!("No key specified in hotkey string"))?;
+        let key_code = key_code.ok_or_else(|| anyhow!("No key specified in hotkey string"))?;
 
         Ok(HotKey::new(Some(modifiers), key_code))
     }

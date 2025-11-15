@@ -2,10 +2,10 @@
 //!
 //! Uses the global-hotkey crate with macOS Carbon/Cocoa APIs
 
-use anyhow::{Context, Result, anyhow};
+use anyhow::{anyhow, Context, Result};
 use global_hotkey::{
-    GlobalHotKeyEvent, GlobalHotKeyManager, HotKeyState,
     hotkey::{Code, HotKey, Modifiers},
+    GlobalHotKeyEvent, GlobalHotKeyManager, HotKeyState,
 };
 use std::sync::Arc;
 use std::thread;
@@ -35,8 +35,7 @@ impl HotkeyManager {
         let manager = GlobalHotKeyManager::new()
             .context("Failed to create global hotkey manager. Check Accessibility permissions in System Settings > Privacy & Security > Accessibility")?;
 
-        let hotkey = Self::parse_hotkey(hotkey_str)
-            .context("Failed to parse hotkey string")?;
+        let hotkey = Self::parse_hotkey(hotkey_str).context("Failed to parse hotkey string")?;
 
         manager.register(hotkey)
             .context("Failed to register hotkey - it may already be in use or require Accessibility permissions")?;
@@ -148,8 +147,7 @@ impl HotkeyManager {
             }
         }
 
-        let key_code = key_code
-            .ok_or_else(|| anyhow!("No key specified in hotkey string"))?;
+        let key_code = key_code.ok_or_else(|| anyhow!("No key specified in hotkey string"))?;
 
         Ok(HotKey::new(Some(modifiers), key_code))
     }
