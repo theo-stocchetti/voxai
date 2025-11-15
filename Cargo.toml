@@ -78,6 +78,12 @@ egui = "0.24"
 # Testing
 criterion = "0.5"
 
+[features]
+# GPU acceleration features (to be implemented)
+cuda = []
+metal = []
+opencl = []
+
 [profile.release]
 opt-level = 3
 lto = true
