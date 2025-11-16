@@ -74,6 +74,10 @@ notify-rust = "4.10"
 eframe = "0.24"
 egui = "0.24"
 
+# Windows API (required by eframe on Windows)
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winuser", "shellapi", "winnls", "winbase", "libloaderapi", "errhandlingapi"] }
+
 [dev-dependencies]
 # Testing
 criterion = "0.5"
