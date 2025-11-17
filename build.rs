@@ -10,6 +10,9 @@ fn main() {
 
     println!("cargo:rerun-if-changed=build.rs");
 
+    // Declare custom features for cfg checking
+    println!("cargo:rustc-check-cfg=cfg(feature, values(\"cuda\", \"metal\", \"opencl\"))");
+
     // Print build information
     println!("cargo:warning=Building for {}-{}", target_os, target_arch);
 

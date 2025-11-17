@@ -3,7 +3,7 @@
 //! Uses enigo for keyboard simulation on macOS
 
 use anyhow::{Context, Result};
-use enigo::{Enigo, Key, KeyboardControllable};
+use enigo::{Direction, Enigo, Key, Keyboard, Settings};
 use std::thread;
 use std::time::Duration;
 
@@ -24,7 +24,8 @@ impl TextInjector {
     pub fn new(method: OutputMethod) -> Result<Self> {
         log::info!("Initializing macOS text injector");
 
-        let enigo = Enigo::new();
+        let enigo = Enigo::new(&Settings::default())
+            .context("Failed to create Enigo instance (check Accessibility permissions)")?;
 
         log::info!(
             "macOS text injector initialized. \
@@ -62,12 +63,10 @@ impl TextInjector {
         // Small delay to allow user to switch windows if needed
         thread::sleep(Duration::from_millis(100));
 
-        for ch in text.chars() {
-            self.enigo.key_sequence(&ch.to_string());
+        self.enigo.text(text).context("Failed to type text")?;
 
-            if self.delay_ms > 0 {
-                thread::sleep(Duration::from_millis(self.delay_ms));
-            }
+        if self.delay_ms > 0 {
+            thread::sleep(Duration::from_millis(self.delay_ms));
         }
 
         log::debug!("Typed {} characters", text.len());
@@ -86,20 +85,26 @@ impl TextInjector {
 
     /// Simulate key press
     pub fn press_key(&mut self, key: Key) -> Result<()> {
-        self.enigo.key_click(key);
+        self.enigo
+            .key(key, Direction::Click)
+            .context("Failed to press key")?;
         Ok(())
     }
 
     /// Simulate key combination (e.g., Cmd+V)
     pub fn press_combination(&mut self, keys: &[Key]) -> Result<()> {
         for key in keys {
-            self.enigo.key_down(*key);
+            self.enigo
+                .key(*key, Direction::Press)
+                .context("Failed to press key down")?;
         }
 
         thread::sleep(Duration::from_millis(50));
 
         for key in keys.iter().rev() {
-            self.enigo.key_up(*key);
+            self.enigo
+                .key(*key, Direction::Release)
+                .context("Failed to release key")?;
         }
 
         Ok(())

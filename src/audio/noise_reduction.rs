@@ -3,7 +3,6 @@
 //! This module provides noise reduction capabilities using the RNNoise algorithm
 //! (Recurrent Neural Network for Noise Suppression).
 
-use anyhow::Result;
 use nnnoiseless::DenoiseState;
 
 /// Sample rate required by RNNoise (48 kHz)

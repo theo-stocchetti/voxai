@@ -2,8 +2,6 @@
 //!
 //! Cross-platform global keyboard shortcuts for triggering recording
 
-use anyhow::Result;
-
 #[cfg(target_os = "windows")]
 pub mod windows;
 #[cfg(target_os = "windows")]

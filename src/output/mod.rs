@@ -2,8 +2,6 @@
 //!
 //! Handles text injection, clipboard operations, and formatting
 
-use anyhow::Result;
-
 pub mod clipboard;
 pub mod formatter;
 

@@ -53,17 +53,24 @@ impl MacOSTray {
 
     /// Load an icon from assets
     fn load_icon(name: &str) -> Result<Icon> {
-        // Try to load @2x PNG (Retina) first, then @1x, then PDF
+        // Try to load @2x PNG (Retina) first, then @1x
         let paths = [
             format!("assets/icons/macos/{}@2x.png", name),
             format!("assets/icons/macos/{}.png", name),
-            format!("assets/icons/macos/{}.pdf", name),
         ];
 
         for icon_path in &paths {
             if std::path::Path::new(icon_path).exists() {
-                return Icon::from_path(icon_path, Some((22, 22)))
-                    .with_context(|| format!("Failed to load icon from {}", icon_path));
+                // Load image using image crate
+                let img = image::open(icon_path)
+                    .with_context(|| format!("Failed to open icon from {}", icon_path))?;
+
+                // Resize to 22x22 for macOS menu bar
+                let img = img.resize_exact(22, 22, image::imageops::FilterType::Lanczos3);
+                let rgba = img.to_rgba8().into_raw();
+
+                return Icon::from_rgba(rgba, 22, 22)
+                    .with_context(|| format!("Failed to create icon from {}", icon_path));
             }
         }
 
